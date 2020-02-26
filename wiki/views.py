@@ -4,7 +4,6 @@ from django.views.generic.detail import DetailView
 
 from wiki.models import Page
 
-
 class PageListView(ListView):
     """ Renders a list of all Pages. """
     model = Page
