@@ -1,8 +1,11 @@
 from django.shortcuts import render
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-
+from django.views.generic.edit import CreateView
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse, reverse_lazy
 from wiki.models import Page
+from .forms import PageForm
 
 class PageListView(ListView):
     """ Renders a list of all Pages. """
@@ -25,3 +28,20 @@ class PageDetailView(DetailView):
         return render(request, 'page.html', {
           'page': page
         })
+
+class PageCreateView(CreateView):
+  template_name = 'new.html'
+  form_class = PageForm
+
+    # model = Page
+
+    # def get(self, request, *args, **kwargs):
+    #   context = {'form': PageForm()}
+    #   return render(request, 'new.html', context)
+
+    # def post(self, request, *args, **kwargs):
+    #   form = PageForm(request.POST)
+    #   if form.is_valid():
+    #     page = form.save()
+    #     return HttpResponseRedirect(reverse_lazy('page:wiki-details-page', args=[page.xslug]))
+    #   return render(request, 'new.html', {'form': form})
