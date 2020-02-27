@@ -30,18 +30,14 @@ class PageDetailView(DetailView):
         })
 
 class PageCreateView(CreateView):
-  template_name = 'new.html'
-  form_class = PageForm
 
-    # model = Page
+    def get(self, request, *args, **kwargs):
+      context = {'form': PageForm()}
+      return render(request, 'new.html', context)
 
-    # def get(self, request, *args, **kwargs):
-    #   context = {'form': PageForm()}
-    #   return render(request, 'new.html', context)
-
-    # def post(self, request, *args, **kwargs):
-    #   form = PageForm(request.POST)
-    #   if form.is_valid():
-    #     page = form.save()
-    #     return HttpResponseRedirect(reverse_lazy('page:wiki-details-page', args=[page.xslug]))
-    #   return render(request, 'new.html', {'form': form})
+    def post(self, request, *args, **kwargs):
+      form = PageForm(request.POST)
+      if form.is_valid():
+        page = form.save()
+        return HttpResponseRedirect(reverse_lazy('wiki-list-page'))
+      return render(request, 'new.html', {'form': form})
